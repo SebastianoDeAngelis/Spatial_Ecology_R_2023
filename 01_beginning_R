@@ -27,7 +27,7 @@ plot (People, Plas, xlab="number of people", ylab="microplastics)
 plot (People, Plas, xlab="number of people", ylab="microplastics", pch=16, cex=0.4, col=blue)
 
 # "pch" (point character) is for the shape, "cex" is for the size of dots in the plot, and "col" is for color
-
+# 
 
 
 
