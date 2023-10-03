@@ -1,0 +1,13 @@
+# ashtags are made for comments!! # it is extremely important to always comment on the side of each operation!
+
+# really dont be shy, just comment a lot
+
+# usin R just as a calculator and object name assignment
+
+a <- 2+3*2+(7/8)
+
+seba <- 5+4*2-12.5
+
+final <-- seba*a
+
+final^2
