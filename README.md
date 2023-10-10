@@ -8,7 +8,6 @@ Sebastiano De Angelis, studente di Unibo
 ## List of scripts
 + population scripts
 + community scripts
-+ tu madre
 + ecosystem scripts
 
 
