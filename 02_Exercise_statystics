@@ -1,0 +1,68 @@
+####
+#2
+#creating 3 vectors and a matrix with them
+x <- c(1:4)
+y <- c(3:6)
+z <- c(9:12)
+M1 <- rbind(x,y,z)
+M2 <- cbind(x,y,z)
+
+#3
+#create a matrix using th ematrix function
+vector_combo <- c(x,y,z)
+M1- matrix(vector_combo, nrow=3, byrow=T)
+
+#4  Take M1 and calculate the sum of each row, and the sum of each column
+row_sum <- rowSums(M1)
+
+col_sum <- colSums(M1)
+
+#5-  Create the matrix M3 as:
+#    M3 <- matrix(c(seq(from=1, to=10, by=2), 5:1, c(rep(x=2022, times=4), 2021)), ncol=3)
+#    What are the dimensions of M3 (number of rows and number of columns)?
+
+# M3 has 3 columns and 5 rows
+#6-  Add column names to M3: “day”, “month” and “year”, respectively
+#7-  Add row names to M3: letters “A” to “E”
+
+colnames(M3) <- c("day", "month", "year")
+rownames(M3) <- c(LETTERS(1:5))
+
+#8-  Shows row(s) of M3 where the month column is greater than or equal to 3.
+
+month_greater <- M3[M3[,2] >=3,]
+print(month_greater)
+
+
+#9-  Replace all elements of M3 that are equal to 2022 with the year 2023.
+
+M3[M3 == 2022] <- 2023
+M3                      #### quando riassegno un valore devo scrivere il nuovo valore dopo 
+
+#10- Create a new matrix M4 in which all elements of the 1st column of M3 are multiplied by 7.
+
+M4 <- M3
+M4[,1]<- (M3[,1])*7
+M4
+
+#11- Add a column to M4 named “time”, that contains values 8, 12, 11, 10, 8
+
+time <- c( 8, 12, 11, 10, 8)
+M4 <- cbind(M4,time)
+M4
+
+#12- Replace all elements of the second column of M4 that are less than 3 with NA.
+
+M4[M4[,2], < 3 , 2]
+
+#13- Remove rows from M4 if a NA is present. Save in the new object named M5. What is the size of M5?
+
+
+row_num <- is.na(M4[c(1:5),2])
+row_num
+M5 <- M4[!row_num,]
+M5
+dim(M5)
+size(M5)
+
+
