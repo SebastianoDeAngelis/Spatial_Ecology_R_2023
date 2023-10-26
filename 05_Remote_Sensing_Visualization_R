@@ -1,0 +1,38 @@
+# Remote sensing for ecosystem monitoring
+
+
+install.packages("devtools")
+install.packages("terra")
+
+library(devtools)
+library(terra)
+
+devtools::install_github("ducciorocchini/imageRy")
+
+library(imageRy)
+
+##list the data from ImageRy with "im.list()"
+im.list()
+
+b2 <- im.import("sentinel.dolomites.b2.tif")
+
+b2
+
+clb <- colorRampPalette(c("darkgrey","grey","lightgrey","lightgrey3")) (100)
+plot(b2, col=clb)
+
+# WGS: World Geodetic System
+# coordynate system's EPSG is a code use by oil company to tag reference systems
+# earth's surface isn't like the one of a geometrical sphere so  you nee other shapes to approximate it. a geoid is a 3d shape which surface is always perpendicular to the gravitational force which is difficult to estimate,
+# an ellipsoide is a 3d ellipse. for many places you dont find an ellipsoid perfectly coinciding with the geoid we have different ellipsoids virtually built atop of earth's surface to better estimate earth's surface in a definite reference system
+
+
+######## final exercise 
+# import the green band from sentinel-2 (band 3)
+im.list()
+b3 <- im.import("sentinel.dolomites.b3.tif")
+clb <- colorRampPalette(c("darkgrey","grey","lightgrey","lightgrey3")) (100)
+plot(b3, col=clb)
+
+
+
