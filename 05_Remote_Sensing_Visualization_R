@@ -34,6 +34,57 @@ b3 <- im.import("sentinel.dolomites.b3.tif")
 clb <- colorRampPalette(c("darkgrey","grey","lightgrey","lightgrey3")) (100)
 plot(b3, col=clb)
 
+#stack images
+stacksent <- c(b2, b3, b4, b8)
+stacksent
+
+#how to close all devices (it closes any graphics)
+dev.off()
+
+plot(stacksent, col = cl5)
+plot(stacksent[[4]], col=cl5)
+
+plot(stacksent)
+im.plotRGB(stacksent, r=3, g=2, b=1)
+
+#Excercise: plot in a multiframe the bands with different color ramps
+dev.off()
+par(mfrow=c(2,2))
+clblue <- colorRampPalette(c("navy","blue","lightblue", "azure")) (100)
+plot(b2, col=clblue)
+clgreen <- colorRampPalette(c("darkgreen","green3", "lightgreen")) (100)
+plot(b3, col= clgreen)
+clred <- colorRampPalette(c("darkred", "red", "pink"))(100)
+plot(b4, col= clred)
+clNIR <- colorRampPalette(c("brown3","orange3", "yellow3"))(100)
+plot(b8, col = clNIR)
+
+##### 07/11/2023
+
+# RGB space
+# stacksent: 
+# band2 blue element 1, stacksent[[1]] 
+# band3 green element 2, stacksent[[2]]
+# band4 red element 3, stacksent[[3]]
+# band8 nir element 4, stacksent[[4]] 
+
+b2 <- im.import("sentinel.dolomites.b2.tif")
+b3 <- im.import("sentinel.dolomites.b3.tif")
+b4 <- im.import("sentinel.dolomites.b4.tif")
+b8 <- im.import("sentinel.dolomites.b8.tif")
+im.plotRGB(stacksent, r=3, g=2, b=1)
+
+# we can now change the visualized color choosing between the position within the stacksent array
+# in this case the band which gives more information about vegetation in INR, so we change the color visualizing that
+im.plotRGB(stacksent, r=4, g=2, b=1)
+
+# further doing so
+im.plotRGB(stacksent, r=3, g=4, b=1)
+im.plotRGB(stacksent, r=3, g=2, b=4)
+
+#how to see the correlation of information between bands. we can plot the information corresponding to the same pixel in different bands through the function:
+pairs(stacksent)
+#very fast correlation method working with any  kind of data, not only geographical #ANCIENT, PIONEERING FUNTION
 
 
 
