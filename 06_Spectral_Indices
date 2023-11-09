@@ -12,3 +12,17 @@ im.plotRGB(m1992, 2 , 1 , 3)
 #import the matogrosso image from 2006
 m2006 <- im.import("matogrosso_ast_2006209_lrg.jpg")
 im.plotRGB(m2006, 2 , 3 , 1)
+
+### 09/11/2023
+# Indices derived from RS imagery
+
+library(imageRy) # beloved package developed at unibo
+library(terra)
+library(ggplot2)
+library(viridis)
+
+im.list()
+
+m1992 <- im.import("matogrosso_l5_1992219_lrg.jpg")
+im.plotRGB(m1992, r=2, g=1, b=3) #NIR layer [1] displayed green
+im.plotRGB(m1992, r=2, g=3, b=1) #NIR layer [1] displayed blue
