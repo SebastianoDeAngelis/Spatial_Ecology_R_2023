@@ -2,9 +2,14 @@
 setwd("C:/Users/sebad/OneDrive/OneDrive - Università degli Studi di Milano/Documenti/Unibo Folder/Spatial Ecology/immagini satellitari utili")
 # inverting every back slash because R doesnt read them properly
 
-# Import the data using the function rast
+# Import the data using the function rast which creates an image
 library(terra)
-Najaf <- rast("najafiraq_2003.jpg")
+Najafmay <- rast("najafiraq_may.jpg")
+Najafaugust <- rast("najafiraq_august.jpg")
 
 # plotting it
-plotRGB( Najaf2003, 1, 2, 3)
+par( mfrow = c(1,2))
+plotRGB( Najafmay, 1, 2, 3)
+plotRGB( Najafaugust, 1, 2, 3)
+
+#now download any image and work on them. 
