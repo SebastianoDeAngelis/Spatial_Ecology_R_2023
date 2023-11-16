@@ -1,0 +1,10 @@
+# first step: explaining to R which folder we are gonna use (this is called the working directory)
+setwd("C:/Users/sebad/OneDrive/OneDrive - Università degli Studi di Milano/Documenti/Unibo Folder/Spatial Ecology/immagini satellitari utili")
+# inverting every back slash because R doesnt read them properly
+
+# Import the data using the function rast
+library(terra)
+Najaf <- rast("najafiraq_2003.jpg")
+
+# plotting it
+plotRGB( Najaf2003, 1, 2, 3)
