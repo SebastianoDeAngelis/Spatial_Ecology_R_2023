@@ -1,0 +1,11 @@
+# https://land.copernicus.eu/global/
+# downloading images from the website after registering
+
+library(terra)
+library(ncdf4)
+
+# establishing a working directory
+# setwd("C:/Users/ecc")
+
+# importing a raster image with this function
+# downloadmap <- rast("downloaded raster")
