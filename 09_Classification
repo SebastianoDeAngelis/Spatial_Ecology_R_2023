@@ -27,10 +27,33 @@ m1992_c <- im.classify(m1992, num_clusters = 2)
 m2006_c <- im.classify(m2006, num_clusters = 2)
 
 # plotting them both 
-mfrow(c(1,2))
-plot(c(m1992_c, m2006_c))
+par(mfrow=c(1,2))
+plot(m1992_c[[1]])
+plot(m2006_c[[1]])
+
 
 #obtaining frequncy of each cluster
 freq_1992 <- freq(m1992_c)
 freq_2006 <- freq(m2006_c)
+# extracting the total number of pixel
+tot1992 <- ncell(m1992_c)
+tot2006 <- ncell(m2006_c)
+# obtain the percentage %
+p1992 <- f1992 * 100 / tot1992
+p2006 <- f2006 * 100 / tot2006
 
+#building the final table
+cluster <- c("forest", "human")
+y1992 <- c(84, 16)
+y2006 <- c(45, 55)
+
+tab_final <- data.frame(cluster, y1992, y2006)
+tab_final
+
+# and dysplying it through function of the package GGPLOT 
+library(ggplot2)
+p1 <- ggplot(tab_final, aes(x=cluster, y=y1992, color=cluster)) + geom_bar(stat="identity", fill="white")
+p1
+
+p2 <- p1 <- ggplot(tab_final, aes(x=cluster, y=y2006, color=cluster)) + geom_bar(stat="identity", fill="white")
+p2
