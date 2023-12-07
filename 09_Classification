@@ -1,0 +1,36 @@
+# we can classify each pixel considering its reflectance in different color bands
+# to classify we consider the reflectance of NIR values and RED values. Each pixel has a unique value of these two parameters but similar pixels have similar values. and thus we can sub-divide them in classes
+# we use training sites to train the software to recognize each pixel and divide it in the corresponding cluster (class)
+# in R we can do it thanks to the ImageRy function: im.classify()
+
+# classify satellite images and estimate the amounty of change
+library(terra)
+library(ImageRy)
+im.list()
+
+Sun <- im.import("Solar_Orbiter_s_first_views_of_the_Sun_pillars")
+# just by viewing the image is possible to predict how many classes are useful to classify the image
+
+# using the funtion expressing the num of classes
+sun_c <- im.classify(sun, num_clusters = 3)
+plot(sun_c)
+
+#apply the same method to matogrosso images
+im.list()
+m1992 <- im.import("matogrosso_l5_1992219_lrg")
+m2006 <- im.import("matogrosso_ast_2006209_lrg")
+
+# then we classify m1992 in two classes, so that one class is agricultural area and the other is forested
+m1992_c <- im.classify(m1992, num_clusters = 2)
+
+# same as m1992 for m2006
+m2006_c <- im.classify(m2006, num_clusters = 2)
+
+# plotting them both 
+mfrow(c(1,2))
+plot(c(m1992_c, m2006_c))
+
+#obtaining frequncy of each cluster
+freq_1992 <- freq(m1992_c)
+freq_2006 <- freq(m2006_c)
+
