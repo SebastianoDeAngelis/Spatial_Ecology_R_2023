@@ -53,7 +53,16 @@ tab_final
 # and dysplying it through function of the package GGPLOT 
 library(ggplot2)
 p1 <- ggplot(tab_final, aes(x=cluster, y=y1992, color=cluster)) + geom_bar(stat="identity", fill="white")
-p1
 
-p2 <- p1 <- ggplot(tab_final, aes(x=cluster, y=y2006, color=cluster)) + geom_bar(stat="identity", fill="white")
-p2
+p2 <- ggplot(tab_final, aes(x=cluster, y=y2006, color=cluster)) + geom_bar(stat="identity", fill="white")
+
+#combining the two graphs witha new library
+install.packages("patchwork")
+library(patchwork)
+p1 + p2
+
+#an issue with such view is that the scale is different and can be misunderstood
+p1 <- ggplot(tab_final, aes(x=cluster, y=y1992, color=cluster)) + geom_bar(stat="identity", fill="white") + ylim(c(0,100))
+
+p2 <- ggplot(tab_final, aes(x=cluster, y=y2006, color=cluster)) + geom_bar(stat="identity", fill="white") + ylim(c(0,100))
+
