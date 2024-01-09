@@ -38,5 +38,56 @@ plot (People, Plas, xlab="number of people", ylab="microplastics", pch=16, cex=0
 
 # 02_Population_Density
 
+#### Populations: group of Individuals all attaining to the same species
+#### Density number of individuals per unit area of a species, usually is an interplay between phonomenon that add individuals (birth, immigration) combined with individual removal (death or emigration)
+#### Dispersion is the pattern of spacing among individuals within the boundaries of a population
+#### Patterns of dispersion within a population can be: clumped, uniform, or randomic
+#### Demography is the study of dynamics in a population, its individual's vital statistics (check for survivorship curve)
+#### Carrying capacity is the amount of individuals of a population or species that can be sustained by the resources in the environmente
+#### r species: selected for life cycle traits that maximie reproduction
+#### K species: selected for life cycle traits that are related to higher competition
+#### Metapopulations are groups of populations linked by immigration and emigration
+#### Estimates on carrying capacity of humans on Earth tells is 10-15 billion
+####
+#install.packages("spatstat")
+library(spatstat)
+
+bei
+plot(bei, pch=19, cex=.5) #setting size and shape of the points in the map
+
+# density map building: from points to a countinous surface
+density_map <- density(bei)
+plot(density_map)  ##setting the colours
+
+# adding points on top of the image generated
+points(bei, cex = .3)
+##setting the colours
+colour <- colorRampPalette(c("black", "red", "orange", "yellow", "white"))(100)
+plot(density_map, col=colour)
+
+##building our own color palette
+colour2 <- colorRampPalette(c("darkolivegreen", "darkolivegreen3", "yellowgreen", "yellow", "azure" ))(100)
+
+# more data from beiextra
+plot(bei.extra)
+elev <- bei.extra[[1]]
+plot(elev)
+
+#plotting both elevation and density; or any other variable alltogether: multiframe
+# mf = multiframe
+par(mfrow = c(1,2))
+plot(densitymap)
+plot(elev)
+
+par(mfrow = c(2,1))
+plot(densitymap)
+plot(elev)
+
+par(mfrow = c(1,3))
+plot(density_map, col = colour2)
+plot(elev, col = colour2)
+plot(bei)
 #----------------
+# 02.2_Population_Dtistribution
+
 #----------------
