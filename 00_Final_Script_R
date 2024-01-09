@@ -13,6 +13,9 @@
 # 06_Time_Series_Analysis
 # 07_Copernicus
 # 08_External_Data
+# 09_Classification
+# 10_LaTeX
+# 11_Variability
 
 #-----------------------------------
 
@@ -403,8 +406,29 @@ library(ncdf4)
 # importing a raster image with this function
 # downloadmap <- rast("downloaded raster")
 
-#----------------
+#-----------------------------------
 
 # 08_External_Data
 
-#----------------
+# first step: explaining to R which folder we are gonna use (this is called the working directory)
+setwd("C:/Users/sebad/OneDrive/OneDrive - Università degli Studi di Milano/Documenti/Unibo Folder/Spatial Ecology/immagini satellitari utili")
+# inverting every back slash because R doesnt read them properly
+
+# Import the data using the function rast which creates an image
+library(terra)
+Najafmay <- rast("najafiraq_may.jpg")
+Najafaugust <- rast("najafiraq_august.jpg")
+
+# plotting it
+par( mfrow = c(1,2))
+plotRGB( Najafmay, 1, 2, 3)
+plotRGB( Najafaugust, 1, 2, 3)
+
+#now download any image and work on them 
+
+#-----------------------------------
+
+# 09_Classification
+#-----------------------------------
+#-----------------------------------
+#-----------------------------------
