@@ -326,7 +326,52 @@ ndvi2006 <- im.ndvi(m2006, 1, 2)
 
 06_Time_Series_Analysis
 
+#Time series analysis
+
+library(Imagery)
+library(terra)
+
+#Downloading data
+im.list()
+EN_01 <- im.import("EN_01.png")
+EN_13 <- im.import("EN_13.png")
+
+par(mfrow=c(2,1))
+im.plot.RGB.auto(EN_01)
+im.plot.RGB.auto(EN_13)
+
+# using the first band of images
+dif <- EN01[[1]] - EN_13[[1]]
+
+#changing palette (from red to blue) and plotting the difference between the two images
+cldiff <- colorRampPalette(c("blue","white","red"))(100)
+plot(dif, col=cldiff)
+
+# import other data
+green2000 <- im.import("greenland.2000.tif")
+cldiff <- colorRampPalette(c("blue","white","red"))(100)
+
+#again
+G2005 <- im.import("greenland.2005.tif")
+G2010 <- im.import("greenland.2010.tif")
+G2015 <- im.import("greenland.2015.tif")
+
+#putting the imported data in an array as bands of the new stacked file
+stackG <- c(green2000, G2005, G2010, G2015)
+plot(stackG, col = cldiff)
+
+#Exercise: compute the difference between the first and last file in the stack
+dif.1.4 <- stackG[[1]]-stackG[[4]]
+#which is the same as <- green2000 - G2015
+plot( dif.1.4, col = cldiff)
+
+#Exercise: make a RGB plot using different years
+im.plot.RGB(stackG, 1, 2, 3)
 
 #----------------
+
+# 07_Copernicus
+
+
 #----------------
 #----------------
