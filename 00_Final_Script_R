@@ -500,6 +500,22 @@ p2 <- ggplot(tab_final, aes(x=cluster, y=y2006, color=cluster)) + geom_bar(stat=
 
 #-----------------------------------
 
-#10_Latex
+# 10_LaTeX
+
+# writing code dedicated to students mental sanity
+## good alternative to Word
++ Formulas
++ Layout: header
++ Figures
++ Bibliography
+
+# every function in LaTeX is preceded by  a backslash '\'
+# the arguments in latex are included in graphs parenthesis '{}'
+# the '%' is the comment symbol
+
 #-----------------------------------
+
+# 11_Variability
+
+
 #-----------------------------------
