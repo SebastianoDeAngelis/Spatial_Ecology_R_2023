@@ -263,7 +263,70 @@ pairs(stacksent)
 
 05_Spectral_Indices
 
+# vegetation indices
+# NDVI = N DIFFERTIAL VEGETATIONAL INDEX
+
+m1992 <- im.import("matogrosso_l5_1992219_lrg.jpg")
+# bands: 1=NIR, 2=RED, 3=GREEN
+im.plotRGB(m1992, r=1 , g=2 , b=3) # the same as
+im.plotRGB(m1992, 1 , 2 , 3)
+
+#we can now put infrared in green visualization component or any other
+im.plotRGB(m1992, 2 , 1 , 3)
+
+#import the matogrosso image from 2006
+m2006 <- im.import("matogrosso_ast_2006209_lrg.jpg")
+im.plotRGB(m2006, 2 , 3 , 1)
+
+### 09/11/2023
+# Indices derived from RS imagery
+
+library(imageRy)
+library(terra)
+library(ggplot2)
+library(viridis)
+
+im.list()
+
+m1992 <- im.import("matogrosso_l5_1992219_lrg.jpg")
+im.plotRGB(m1992, r=2, g=1, b=3) #NIR layer [1] displayed green
+im.plotRGB(m1992, r=2, g=3, b=1) #NIR layer [1] displayed blue
+
+#building a multiframe for both the previously assigned images from matogrosoo 1992/2006
+par(mfrow=c(2,1))
+im.plotRGB(m1992, r=2, g=3, b=1)
+im.plotRGB(m2006, r=2, g=3, b=1)
+
+# creating indices regarding vegetation health through raster analysis
+      ## plot(m1992[[1]]) function to plot only the NIR band. it's flux values goes from 0 to 265 bc these are images stored in 8 bit, so 265 possible multiple combination
+# in order to do so le's compute the difference between the NIR value obtained in 1992 and the red value from the same year
+# DVI = NIR - RED
+dvi1992 <- m1992[[1]] - m1992[[2]]
+plot(dvi1992) #then plot it
+
+# making it fancy
+cl <- ColorRampPalette(c("black", "darkblue", "azure", "yellow", "lightgreen", "darkgreen"))
+par(mfrow=c(1,2))
+plot(dvi1992, col=cl)
+plot(dvi2006, col=cl)
+
+# values must be normalized so that any value detected is comparable
+# NDVI works perfectly for this beacause it ranges from -1 to +1
+NDVI1992 <- (m1992[[1]] - m1992[[2]])/(m1992[[1]] + m1992[[2]])
+NDVI2006 <- (dvi2006)/(m2006[[1]] + m2006[[2]])
+
+par(mfrow=c(1,2))
+plot(NDVI1992, col=cl)
+plot(NDVI2006, col=cl)
+
+# speeding up calculations
+ndvi2006 <- im.ndvi(m2006, 1, 2)
+
 #----------------
+
+06_Time_Series_Analysis
+
+
 #----------------
 #----------------
 #----------------
