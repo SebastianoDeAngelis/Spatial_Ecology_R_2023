@@ -88,6 +88,83 @@ plot(density_map, col = colour2)
 plot(elev, col = colour2)
 plot(bei)
 #----------------
+
 # 02.2_Population_Dtistribution
 
+## install.packages("sdm", "terra") -which are predictors-
+#sdm: species distribution model
+#### why populations disperse over the landscape? and how?
+
+library(sdm)
+library(terra
+
+file <- system.file("external/species.shp", package="sdm")
+
+Rana_alpina <- vect(file)
+
+# occurrence data only talks about only the occurrence of a species, not its abundance
+
+Rana_alpina$Occurrence  
+
+plot(Rana_alpina)
+
+# Selecting the presence 
+
+
+#### selecting presences
+presence <- Rana_alpina[Rana_alpina$Occurrence == 1]
+presence
+presence$Occurrence
+
+#### selecting absences
+
+absence <- Rana_alpina[Rana_alpina$Occurrence == 0]
+absence
+absence$Occurrence
+
+#plotting presences and absences in a multiframe
+
+par(mfrow=c(1,2))
+plot(presence, cex = .5)
+plot(absence, cex = .5)
+      # closing a multiframe
+dev.off()
+
+# plotting pres and abse alltogether with different colours
+dev.off()
+plot(presence, cex = .5, col="navy")
+points(absence, cex = .5, col="azure3")  #adding other points to an already existing plot. insted of using the function plot we use the points function so the data in the plot are not rewritten
+
+
+### using environment predictors for the occurrence distribution
+    ## using the "path" object to find the path for an external file
+elev <- system.file("external/elevation.asc", package="sdm") 
+ ### in order to plot a raster graph in this case we are plotting an image so we need to use a function called "rast()"
+elevmap <- rast(elev)
+plot(elevmap, col=colour)
+points(presence, col = "green3", cex = .6)
+
+### using OTHER ENVIRONMENTAL PREDICTORS and creating a multiframe with all of them
+
+temp <- system.file("external/temperature.asc", package="sdm") 
+prec <- system.file("external/precipitation.asc", package="sdm") 
+vege <- system.file("external/vegetation.asc", package="sdm") 
+par(mfrow = c(2,2))
+tempmap <- rast(temp)
+precmap <- rast(prec)
+vegemap <- rast(vege)
+
+plot(tempmap, col =colour)
+points(presence, col = "green3", cex = .6)
+plot(precmap, col = colour)
+points(presence, col = "green3", cex = .6)
+plot(vegemap, col = colour)
+points(presence, col = "green3", cex = .6)
+plot(elevmap, col=colour)
+points(presence, col = "green3", cex = .6)
+
 #----------------
+
+# 03_Community_Ecology
+
+
