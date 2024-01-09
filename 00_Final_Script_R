@@ -14,8 +14,8 @@
 # 07_Copernicus
 # 08_External_Data
 # 09_Classification
-# 10_LaTeX
-# 11_Variability
+# 10_Variability
+# 11_Principal_Components_Analysis
 
 #-----------------------------------
 
@@ -501,22 +501,7 @@ p2 <- ggplot(tab_final, aes(x=cluster, y=y2006, color=cluster)) + geom_bar(stat=
 
 #-----------------------------------
 
-# 10_LaTeX
-
-# writing code dedicated to students mental sanity
-## good alternative to Word
-+ Formulas
-+ Layout: header
-+ Figures
-+ Bibliography
-
-# every function in LaTeX is preceded by  a backslash '\'
-# the arguments in latex are included in graphs parenthesis '{}'
-# the '%' is the comment symbol
-
-#-----------------------------------
-
-# 11_Variability
+# 10_Variability
 
 # measurement of RS based variability
 
@@ -545,5 +530,9 @@ plot(sd3)
 
 viridisc <- colorRampPalette(viridis(7))(255)
 plot(sd3, col=viridisc)
+
+#-----------------------------------
+
+# 11_Principal_Components_Analysis
 
 #-----------------------------------
