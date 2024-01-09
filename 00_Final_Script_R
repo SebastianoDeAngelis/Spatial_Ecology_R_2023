@@ -1,6 +1,20 @@
-# Final summary of the course's topics
+# Final summary and scripts including all contents dealt with in the course
 
-#----------------
+#-----------------------------------
+
+# Summary:
+# 01_beginning
+# 02.1_population_Density
+# 02.2_Population_Distribution
+# 03.1_Community_Multivariate_Analysis
+# 03.2_Community_Overlap
+# 04_Remote_Sensin_Visualization
+# 05_Spectral_Indices
+# 06_Time_Series_Analysis
+# 07_Copernicus
+# 08_External_Data
+
+#-----------------------------------
 
 # 01_Beginning
 
@@ -34,7 +48,7 @@ plot (People, Plas, xlab="number of people", ylab="microplastics", pch=16, cex=0
 
 # "pch" (point character) is for the shape, "cex" is for the size of dots in the plot, and "col" is for color
 
-#----------------
+#-----------------------------------
 
 # 02_Population_Density
 
@@ -87,7 +101,8 @@ par(mfrow = c(1,3))
 plot(density_map, col = colour2)
 plot(elev, col = colour2)
 plot(bei)
-#----------------
+
+#-----------------------------------
 
 # 02.2_Population_Dtistribution
 
@@ -163,17 +178,21 @@ points(presence, col = "green3", cex = .6)
 plot(elevmap, col=colour)
 points(presence, col = "green3", cex = .6)
 
-#----------------
+#-----------------------------------
 
-# 03_Community_Multivariate_Analysis
+# 03.1_Community_Multivariate_Analysis
 
-#----------------
+#-----------------------------------
 
-#04_Remote_Sensing_Visualization
+# 03.2_Community_Overlap
+
+#-----------------------------------
+
+# 04_Remote_Sensing_Visualization
 
 # Remote sensing for ecosystem monitoring
 
-
+# The devtools package is useful to downlad packages from external sources, like github
 install.packages("devtools")
 install.packages("terra")
 
@@ -232,7 +251,7 @@ plot(b4, col= clred)
 clNIR <- colorRampPalette(c("brown3","orange3", "yellow3"))(100)
 plot(b8, col = clNIR)
 
-##### 07/11/2023
+#                              07/11/2023
 
 # RGB space
 # stacksent: 
@@ -259,7 +278,7 @@ im.plotRGB(stacksent, r=3, g=2, b=4)
 pairs(stacksent)
 #very fast correlation method working with any  kind of data, not only geographical #ANCIENT, PIONEERING FUNTION
 
-#----------------
+#-----------------------------------
 
 05_Spectral_Indices
 
@@ -322,7 +341,7 @@ plot(NDVI2006, col=cl)
 # speeding up calculations
 ndvi2006 <- im.ndvi(m2006, 1, 2)
 
-#----------------
+#-----------------------------------
 
 06_Time_Series_Analysis
 
@@ -368,10 +387,24 @@ plot( dif.1.4, col = cldiff)
 #Exercise: make a RGB plot using different years
 im.plot.RGB(stackG, 1, 2, 3)
 
-#----------------
+#-----------------------------------
 
 # 07_Copernicus
 
+# https://land.copernicus.eu/global/
+# downloading images from the website after registering
+
+library(terra)
+library(ncdf4)
+
+# establishing a working directory
+# setwd("C:/Users/ecc")
+
+# importing a raster image with this function
+# downloadmap <- rast("downloaded raster")
 
 #----------------
+
+# 08_External_Data
+
 #----------------
