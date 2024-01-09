@@ -438,6 +438,7 @@ plotRGB( Najafaugust, 1, 2, 3)
 # classify satellite images and estimate the amounty of change
 library(terra)
 library(ImageRy)
+library(patchwork)
 im.list()
 
 Sun <- im.import("Solar_Orbiter_s_first_views_of_the_Sun_pillars")
