@@ -2,7 +2,41 @@
 
 #----------------
 
+# 01_Beginning
+
+# ashtags are made for comments!! # it is extremely important to always comment on the side of each operation!
+
+# really dont be shy, just comment a lot
+
+# usin R just as a calculator and object name assignment
+
+a <- 2+3*2+(7/8)
+
+seba <- 5+4*2-12.5
+
+final <-- seba*a
+
+final^2
+
+#make an array with data
+
+Plas <- c(10, 20, 30, 50, 70) # number of microplastic found in a finnite area
+
+People <- c(100, 500, 600, 1000, 2000) # number of people found in the determinate area
+
+plot (People, Plas, xlab="number of people", ylab="microplastics)
+
+#this makes it possible to add labels to graphs dimensions
+
+#add point characters to graphs
+
+plot (People, Plas, xlab="number of people", ylab="microplastics", pch=16, cex=0.4, col=blue)
+
+# "pch" (point character) is for the shape, "cex" is for the size of dots in the plot, and "col" is for color
 
 #----------------
+
+# 02_Population_Density
+
 #----------------
 #----------------
