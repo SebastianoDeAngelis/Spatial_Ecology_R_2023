@@ -185,9 +185,58 @@ points(presence, col = "green3", cex = .6)
 
 # 03.1_Community_Multivariate_Analysis
 
+library(vegan)
+
+data(dune)
+head(dune)
+
+ord <- decorana(dune)
+
+ldc1 =  3.7004 
+ldc2 =  3.1166 
+ldc3 = 1.30055
+ldc4 = 1.47888
+
+total = ldc1 + ldc2 + ldc3 + ldc4
+
+pldc1 = ldc1 * 100 / total
+pldc2 = ldc2 * 100 / total
+pldc3 = ldc3 * 100 / total
+pldc4 = ldc4 * 100 / total
+
+pldc1
+pldc2
+
+pldc1 + pldc2
+
+plot(ord) 
+
 #-----------------------------------
 
 # 03.2_Community_Overlap
+
+# relation among species in time
+
+library(overlap)
+
+data(kerinci)
+summary(kerinci)
+
+kerinci$timeRad <- kerinci$Time * 2 * pi
+
+tiger <- kerinci[kerinci$Sps=="tiger",]
+
+timetig <- tiger$timeRad
+densityPlot(timetig, rug=TRUE)
+
+# exercise: select only the data on macaque individuals
+macaque <- kerinci[kerinci$Sps=="macaque",]
+head(macaque)
+
+timemac <- macaque$timeRad
+densityPlot(timemac, rug=TRUE)
+
+overlapPlot(timetig, timemac)
 
 #-----------------------------------
 
@@ -222,7 +271,7 @@ plot(b2, col=clb)
 # an ellipsoide is a 3d ellipse. for many places you dont find an ellipsoid perfectly coinciding with the geoid we have different ellipsoids virtually built atop of earth's surface to better estimate earth's surface in a definite reference system
 
 
-######## final exercise 
+#                               final exercise 
 # import the green band from sentinel-2 (band 3)
 im.list()
 b3 <- im.import("sentinel.dolomites.b3.tif")
