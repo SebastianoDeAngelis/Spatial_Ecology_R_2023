@@ -1,8 +1,14 @@
+# install necessary packages
+install.packages("png")
+install.packages("jpeg")
+
 # load appropriate libraries
 library(terra)
 library(imageRy)
 library(viridis)
 library(raster)
+library(ncdf4)
+library(jpeg)
 
 # set a working directory (wd)
 setwd("C:\Users\sebad\OneDrive\OneDrive - Università degli Studi di Milano\Desktop\GCE\Spatial Ecology in R\R Project\Hawaii wildfires")
@@ -10,14 +16,16 @@ setwd("C:\Users\sebad\OneDrive\OneDrive - Università degli Studi di Milano\Desk
 
 # import and name each image
   # before wildfires
-July_Muai <- im.import("T04QGJ_20230803T210931_TCI.jp2")
+  July_Muai <- readJPEG("Sentinel_03_08_Maui.jpg")
 
   # after wildfires
-Octo_Muai <- im.import("T04QGJ_20230907T210929_TCI.jp2")
-  
-  # 3 months later
-Dece_Muai <- im.importi("T04QGJ_20231231T210921_TCI.jp2")
+  Octo_Muai <- readJPEG("Sentinel_07_09_Maui.jpg")
 
+  # 3 months later
+  Dece_Muai <- readJPEG("Sentinel_31_12_Maui.jpg")
+
+# images check-up
+  
 
 # processing and manipulating the images
   # crop them
