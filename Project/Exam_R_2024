@@ -1,22 +1,22 @@
 # load appropriate libraries
 library(terra)
-library(ImageRy)
+library(imageRy)
 library(viridis)
 library(raster)
 
 # set a working directory (wd)
-setwd("")
+setwd("C:\Users\sebad\OneDrive\OneDrive - Università degli Studi di Milano\Desktop\GCE\Spatial Ecology in R\R Project\Hawaii wildfires")
 
 
 # import and name each image
   # before wildfires
-July_Muai <- im.import(
+July_Muai <- im.import("T04QGJ_20230803T210931_TCI.jp2")
 
   # after wildfires
-Octo_Muai <- im.import()
+Octo_Muai <- im.import("T04QGJ_20230907T210929_TCI.jp2")
   
   # 3 months later
-Dece_Muai <- im.importi()
+Dece_Muai <- im.importi("T04QGJ_20231231T210921_TCI.jp2")
 
 
 # processing and manipulating the images
