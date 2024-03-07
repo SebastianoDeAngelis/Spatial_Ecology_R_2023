@@ -1,0 +1,26 @@
+# load appropriate libraries
+library(terra)
+library(ImageRy)
+library(viridis)
+library(raster)
+
+# set a working directory (wd)
+setwd("")
+
+
+# import and name each image
+  # before wildfires
+July_Muai <- im.import(
+
+  # after wildfires
+Octo_Muai <- im.import()
+  
+  # 3 months later
+Dece_Muai <- im.importi()
+
+
+# processing and manipulating the images
+  # crop them
+
+  # turn to NA, in each image, any pixel that is cloud covered from each images
+
