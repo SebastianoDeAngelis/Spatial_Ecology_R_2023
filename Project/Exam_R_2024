@@ -1,34 +1,209 @@
-# install necessary packages
-install.packages("png")
-install.packages("jpeg")
+install.packages("terra")
+install.packages("viridis")
+install.packages("devtools")
+install_github("ducciorocchini/imageRy")
 
-# load appropriate libraries
-library(terra)
+library(devtools)
 library(imageRy)
+library(terra)
 library(viridis)
 library(raster)
-library(ncdf4)
-library(jpeg)
 
-# set a working directory (wd)
-setwd("C:\Users\sebad\OneDrive\OneDrive - Università degli Studi di Milano\Desktop\GCE\Spatial Ecology in R\R Project\Hawaii wildfires")
+getwd()
 
 
-# import and name each image
-  # before wildfires
-  July_Muai <- readJPEG("Sentinel_03_08_Maui.jpg")
+# IMAGE IMPORT AND MANIPULATION
 
-  # after wildfires
-  Octo_Muai <- readJPEG("Sentinel_07_09_Maui.jpg")
+## import useful layers and image first look
 
-  # 3 months later
-  Dece_Muai <- readJPEG("Sentinel_31_12_Maui.jpg")
+Pedrogao06_raw <- rast("Pedrogao_June_TCI.jp2")
+Pedrogao07_raw <- rast("Pedrogao_July_TCI.jp2")
+Pedrogao06_B08_raw <- rast("Pedrogao_June_B08.jp2")
+Pedrogao07_B08_raw <- rast("Pedrogao_July_B08.jp2")
+Pedrogao07_B12_raw <- rast("Pedrogao_July_B12.jp2")
 
-# images check-up
-  
 
-# processing and manipulating the images
-  # crop them
+### Observing current situation
+par(mfrow = c(1,2))
+plot(Pedrogao07_B12_raw)
+plot(Pedrogao07_raw)
 
-  # turn to NA, in each image, any pixel that is cloud covered from each images
+
+## crop the images to the interested site
+standard_extent <- c( 499980+54900, 499980+87860, 4390200+13725, 4390200+54900)
+
+Pedrogao06_raw <- crop(Pedrogao06_raw, standard_extent)
+Pedrogao07_raw <- crop(Pedrogao07_raw, standard_extent)
+Pedrogao06_B08_raw <- crop(Pedrogao06_B08_raw, standard_extent)
+Pedrogao07_B08_raw <- crop(Pedrogao07_B08_raw, standard_extent)
+Pedrogao07_B12_raw <- crop(Pedrogao07_B12_raw, standard_extent)
+
+## re-sampling different resolution images
+
+Pedrogao07_B12_resample <- resample(Pedrogao07_B12_raw, Pedrogao07_B08_raw) 
+
+
+### creating a few sites of interest to appreciate more closely
+
+focus_extent_A <- ext( 557000, 573000, 4405500, 4432000 )
+focus_extent_B <- ext( 573000, 585000, 4423000, 4440000 )
+
+
+## To create a river mask the Normalized Difference Water Index will be used 
+## NDWI = GREEN - NIR / GREEN + NIR
+
+P06_NDWI <- (( Pedrogao06_raw[[2]] - Pedrogao06_B08_raw) / (Pedrogao06_raw[[2]] + Pedrogao06_B08_raw))
+
+
+## Duplicate the spat-raster and choosing a discriminatory value for NA's
+
+P06_NDWI2 <- P06_NDWI
+
+P06_NDWI2[P06_NDWI2 >= -0.81] <- NA
+P06_NDWI2[P06_NDWI2 <= -0.81] <- 1
+
+RIVER_MASK <- P06_NDWI2
+plot(RIVER_MASK)
+
+
+### Applying the mask to all spat-raster
+
+Pedrogao06_B08 <- mask(Pedrogao06_B08_raw, RIVER_MASK)
+Pedrogao07_B08 <- mask(Pedrogao07_B08_raw, RIVER_MASK)
+Pedrogao06 <- mask(Pedrogao06_raw, RIVER_MASK)
+Pedrogao07 <- mask(Pedrogao07_raw, RIVER_MASK)
+Pedrogao07_B12 <- mask(Pedrogao07_B12_resample, RIVER_MASK)
+
+plot(Pedrogao06)
+
+
+# SEARCHING FOR AN INDEX ABLE TO DISCRIMINATE BETWEEN VEGETATION TYPES
+
+# NDVI = ( NIR - RED ) / ( NIR + RED )  
+
+P06_NDVI <- ( Pedrogao06_B08 - Pedrogao06[[1]] ) / ( Pedrogao06_B08 + Pedrogao06[[1]] )
+P07_NDVI <- ( Pedrogao07_B08 - Pedrogao07[[1]] ) / ( Pedrogao07_B08 + Pedrogao07[[1]] )
+
+plot(P06_NDVI)  #### not quite enough discrimination
+
+
+# EVI ( Enanched Vegetation Index) should be useful to address vegetation cover types (mono-coltures / forests)
+## Constants for the EVI calculation
+
+C1 <- 6
+C2 <- 7.5
+L <- 1
+
+
+# EVI = ( 2.5 * ( NIR - RED ) / ( NIR + 6 * RED - 7.5 * BLUE + 1)
+P06_EVI_raw <- (Pedrogao06_B08 - Pedrogao06[[1]]) / (Pedrogao06_B08 + C1 * Pedrogao06[[1]] - C2 * Pedrogao06[[3]] + 1)
+P06_EVI <- clamp(P06_EVI_raw, upper = 1)
+P07_EVI <- (Pedrogao07_B08 - Pedrogao07[[1]]) / (Pedrogao07_B08 + C1 * Pedrogao07[[1]] - C2 * Pedrogao07[[3]] + 1)
+P07_EVI <- clamp(P07_EVI, upper = 1) #### cut down to pertinent values ( 0 - 1 )
+
+plot(P06_EVI)
+
+
+## clustering by 3 EVI zones ( k_means() )
+## they represent high quality vegetation, medium quality veg. ( monocoltures ) and antropic areas ( cities/ villages )
+P06_EVI_clusters <- k_means(P06_EVI, centers = 3, maxcell=500)
+
+# EXTRAPOLATING statistics about vegetation cover
+
+Mono_Pixels <- length(P06_EVI_clusters[P06_EVI_clusters == 2]) 
+Total_Mono_Ratio <- Mono_Pixels / 13569632
+
+HighQ_Pixels <- length(P06_EVI_clusters[P06_EVI_clusters == 1])
+Total_HighQ_Ratio <- HighQ_Pixels / 13569632
+
+Anthro_Pixels <- length(P06_EVI_clusters[P06_EVI_clusters == 3])
+Total_Anthro_Ratio <- Anthro_Pixels / 13569632
+
+
+# Using NBR ( Normalized Burn Ratio ) to highlight burnt area in July
+# NBR = ( NIR - SWIR ) / ( NIR + SWIR )
+
+NBR <- ( Pedrogao07_B08 - Pedrogao07_B12_resample) / ( Pedrogao07_B08 + Pedrogao07_B12_resample )
+
+
+# creating a burnt mask from NBR using the rewriting technique
+
+BURN_MASK <- NBR
+BURN_MASK[BURN_MASK >= -0.05] <- 0
+BURN_MASK[BURN_MASK <= -0.05] <- 3
+plot(BURN_MASK)
+
+
+# COMPARING BURNT AREA WITH LOW QUALITY VEGET
+# turning both SpatRaster Objects in raster layers
+
+BURN_MASK_rast <- raster(BURN_MASK)
+P06_EVI_clusters_rast <- raster(P06_EVI_clusters)
+
+# Overlaying them for comparison reasons - each new layer value corresponds to 
+# an area with a specific vegetation type either struck or not by the wild-fire
+
+Fire_Effects_raster <- overlay(BURN_MASK_rast, P06_EVI_clusters_rast, alpha = 1, fun=sum)
+
+## and turning it again in a SpatRaster for displaying reasons
+
+Fire_Effects <- rast(Fire_Effects_raster)
+plot(Fire_Effects, col = inferno(256))
+
+## portion of burnt area with mono-coltures
+
+Total_Burnt <- length(BURN_MASK[BURN_MASK == 3]) 
+
+Burnt_Mono_Pixels <- length(Fire_Effects[Fire_Effects == 5])
+Burnt_Mono_Ratio <- Burnt_Mono_Pixels/(Total_Burnt)
+Burnt_Mono_Ratio
+
+Burnt_HighQ_Pixels <- length(Fire_Effects[Fire_Effects == 4]) 
+Burnt_HighQ_Ratio <- Burnt_HighQ_Pixels/(Total_Burnt)
+Burnt_HighQ_Ratio
+
+Burnt_Anthro_Pixels <- length(Fire_Effects[Fire_Effects == 6])
+Burnt_Anthro_Ratio <- Burnt_Anthro_Pixels/(Total_Burnt)
+Burnt_Anthro_Ratio
+
+#CORRELATION
+##between EVI value and NBR value
+## we create special spatraster for EVI and NBR values but, only included within the burnt area
+
+BURN_MASK2 <- NBR
+BURN_MASK2[BURN_MASK2 >= -0.05] <- NA
+BURN_MASK2[BURN_MASK2 < -0.05] <- 1
+Burnt_P06_EVI <- mask(P06_EVI, BURN_MASK2)
+Burnt_NBR <- mask(NBR, BURN_MASK2)
+plot(Burnt_P06_EVI)
+
+## create a dataframe
+
+df <- as.data.frame(c(Burnt_NBR, Burnt_P06_EVI), na.rm=TRUE)
+colnames(df) <- c("NBR", "EVI")
+
+## Pearson
+
+cor_pearson <- cor(df$NBR, df$EVI, method = "pearson")
+print(cor_pearson)
+
+## Spearman
+
+cor_spearman <- cor(df$NBR, df$EVI, method = "spearman")
+print(cor_spearman)
+
+## lm analysis
+
+lm_model <- lm(NBR ~ EVI, data = df)
+summary(lm_model)
+
+## visualization
+
+library(ggplot2)
+
+ggplot(df, aes(x = EVI, y = NBR)) +
+  geom_point(alpha = 0.5) +   # Scatter plot
+  geom_smooth(method = "lm", col = "red") +  # Regressione lineare
+  labs(title = "Correlazione tra EVI e NBR pixel per pixel",
+       x = "EVI (giugno)", y = "NBR (luglio)")
 
