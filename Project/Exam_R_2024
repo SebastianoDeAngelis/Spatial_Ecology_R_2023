@@ -95,7 +95,7 @@ C2 <- 7.5
 L <- 1
 
 
-# EVI = ( 2.5 * ( NIR - RED ) / ( NIR + 6 * RED - 7.5 * BLUE + 1)
+# EVI = ( 1 * ( NIR - RED ) / ( NIR + 6 * RED - 7.5 * BLUE + 1)
 P06_EVI_raw <- (Pedrogao06_B08 - Pedrogao06[[1]]) / (Pedrogao06_B08 + C1 * Pedrogao06[[1]] - C2 * Pedrogao06[[3]] + 1)
 P06_EVI <- clamp(P06_EVI_raw, upper = 1)
 P07_EVI <- (Pedrogao07_B08 - Pedrogao07[[1]]) / (Pedrogao07_B08 + C1 * Pedrogao07[[1]] - C2 * Pedrogao07[[3]] + 1)
