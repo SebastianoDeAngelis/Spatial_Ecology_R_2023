@@ -16,5 +16,5 @@ Sebastiano De Angelis, studente di Unibo
 
 > **Notes**
 > Scripts will be added lecture by lecture
-> Also tu madre
+
 
