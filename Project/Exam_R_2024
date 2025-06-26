@@ -197,13 +197,6 @@ print(cor_spearman)
 lm_model <- lm(NBR ~ EVI, data = df)
 summary(lm_model)
 
-## visualization
 
-library(ggplot2)
 
-ggplot(df, aes(x = EVI, y = NBR)) +
-  geom_point(alpha = 0.5) +   # Scatter plot
-  geom_smooth(method = "lm", col = "red") +  # Regressione lineare
-  labs(title = "Correlazione tra EVI e NBR pixel per pixel",
-       x = "EVI (giugno)", y = "NBR (luglio)")
 
